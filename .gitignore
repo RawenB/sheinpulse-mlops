@@ -1,6 +1,5 @@
 # data
 data/
-reports/figures/
 *.parquet
 *.csv
 *.jsonl
