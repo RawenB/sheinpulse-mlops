@@ -7,7 +7,7 @@
 ---
 
 ## Project Goal
-Build a system that can:
+Build a system that can can:
 1. **Scrape Shein product data** (name, price, discount, rating, reviews, category, images, etc.)
 2. **Clean + prepare** the dataset for ML
 3. **Train models** to predict a target such as:
