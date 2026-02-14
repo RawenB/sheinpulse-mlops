@@ -1,0 +1,12 @@
+# data
+data/
+reports/figures/
+*.parquet
+*.csv
+*.jsonl
+*.png
+
+# local / cache
+__pycache__/
+.cache/
+.env
