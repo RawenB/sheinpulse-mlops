@@ -3,7 +3,6 @@ data/
 *.parquet
 *.csv
 *.jsonl
-*.png
 
 # local / cache
 __pycache__/
