@@ -16,3 +16,4 @@ models-*
 mlruns/
 logs/
 outputs/
+mlflow.db
