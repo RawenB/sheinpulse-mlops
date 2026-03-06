@@ -11,4 +11,5 @@ __pycache__/
 .venv
 .vscode
 .idea
-models/*
+models/
+mlruns/
