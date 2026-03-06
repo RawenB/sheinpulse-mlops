@@ -277,22 +277,14 @@ GET /model-info
 POST /predict
 
 
-Example request:
-
-```json
-{
-  "article_id": 108775051,
-  "year": 2018,
-  "week": 38
-}
-Customer Recommendations
+## Customer Recommendations
 
 GET /recommend/{customer_id}?top_k=5
 
 
 Returns recommended products for a given customer.
 
-React Frontend
+## React Frontend
 
 The frontend dashboard provides a visual interface for interacting with the system.
 
@@ -310,7 +302,7 @@ Product recommendation cards
 
 The frontend communicates with the FastAPI backend using Axios.
 
-Installation
+## Installation
 1 Clone the repository
 
 git clone <repository_url>
@@ -334,7 +326,7 @@ cd frontend
 npm install
 cd ..
 
-Running the Project
+## Running the Project
 Step 1 Activate the virtual environment
 
 .venv\Scripts\activate
@@ -387,6 +379,7 @@ http://localhost:5173
 
 Demo Workflow
 Demand Prediction
+<img width="1657" height="909" alt="Capture d&#39;écran 2026-03-06 211201" src="https://github.com/user-attachments/assets/5a7a386d-3a72-41cc-829b-6402b3696924" />
 
 1 Open dashboard
 2 Enter article_id
@@ -397,11 +390,11 @@ Demand Prediction
 Product Recommendation
 
 1 Enter a customer_id
-2 Select number of recommendations
+2 Select the number of recommendations
 3 Click Get Recommendations
 4 The system returns recommended products
 
-Technical Architecture
+## Technical Architecture
 
 React Frontend
       |
@@ -415,7 +408,7 @@ MLflow Production Model
 Prediction Response
 
 
-Recommendation pipeline:
+## Recommendation pipeline:
 
 
 Customer ID
@@ -429,13 +422,13 @@ Collaborative Recommendation Logic
      v
 Recommended Products
 
-Current Limitations
+## Current Limitations
 
 The available transaction snapshot covers a short time window
 
 Temporal variation in the demand dataset is limited
 
-Recommendation system is a baseline collaborative approach
+A recommendation system is a baseline collaborative approach
 
 Future improvements could include:
 
@@ -449,7 +442,7 @@ deployment with Docker
 
 production cloud deployment
 
-Technologies Used
+## Technologies Used
 
 Backend
 
@@ -477,7 +470,6 @@ Parquet
 
 H&M fashion dataset
 
-Author
-
+## Author
 Rawen Beji
-Engineering student in Data Science and AI focusing on building real-world machine learning systems.
+Engineering student in Data Science and AI, focusing on building real-world machine learning systems.
