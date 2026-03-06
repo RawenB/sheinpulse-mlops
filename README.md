@@ -8,8 +8,6 @@ The system supports two machine learning tasks:
 - Demand prediction for fashion articles
 - Customer product recommendation
 
----
-
 # Project Overview
 
 This project demonstrates a complete machine learning pipeline including:
@@ -23,8 +21,6 @@ This project demonstrates a complete machine learning pipeline including:
 - Frontend interface using React
 
 The goal of the project is to simulate a real-world ML system used in fashion retail analytics.
-
----
 
 # Features
 
@@ -48,8 +44,6 @@ Models tested:
 
 The best performing model is automatically registered as the production model.
 
----
-
 ## Product Recommendation
 
 The recommendation module suggests products for a given customer.
@@ -69,8 +63,6 @@ The recommendation API returns:
 - product type
 - product group
 
----
-
 # MLOps Components
 
 The project demonstrates the following MLOps practices:
@@ -85,8 +77,6 @@ The project demonstrates the following MLOps practices:
 - Frontend integration
 
 MLflow is used to manage the model lifecycle.
-
----
 
 # Project Structure
 mlops-main/
@@ -126,8 +116,6 @@ mlops-main/
 ├── requirements.txt
 └── .gitignore
 
----
-
 # Dataset
 
 The project uses the H&M fashion retail dataset.
@@ -141,8 +129,6 @@ Files used:
 Transactions contain purchase history linking customers and articles.
 
 Article metadata provides product attributes used for feature engineering.
-
----
 
 # Machine Learning Pipeline
 
@@ -161,7 +147,6 @@ This script:
 
 Output file:
 data/processed/weekly_demand.parquet
----
 
 ## 2 Recommendation Data Preparation
 
@@ -184,8 +169,6 @@ models/customer_history.parquet
 models/article_customers.parquet
 models/article_popularity.parquet
 
-
----
 
 ## 3 Model Training
 
@@ -215,8 +198,6 @@ The best model is registered as:
 sheinpulse_model
 
 
----
-
 # MLflow Experiment Tracking
 
 MLflow tracks:
@@ -238,8 +219,6 @@ Open in browser:
 
 http://127.0.0.1:5000
 
-
----
 
 # FastAPI Model Serving
 
