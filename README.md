@@ -1,97 +1,483 @@
-# FashionPulse-MLops
+# SheinPulse MLOps
 
-### End-to-End Retail Demand Intelligence Platform
+SheinPulse is an end-to-end MLOps project built on the H&M retail dataset.  
+The project demonstrates the full lifecycle of a machine learning system including data processing, model training, experiment tracking with MLflow, API deployment using FastAPI, and a React dashboard for predictions and recommendations.
 
-------------------------------------------------------------------------
+The system supports two machine learning tasks:
 
-## Overview
+- Demand prediction for fashion articles
+- Customer product recommendation
 
-FashionPulse is an end-to-end Machine Learning Operations (MLOps)
-project designed to analyze large-scale fashion retail data and build
-predictive models for product demand.
+---
 
-The system processes real-world retail transaction data, trains machine
-learning models, tracks experiments, serves predictions through an API,
-and visualizes insights in a web dashboard --- all deployed using
-containerized services.
+# Project Overview
 
-This project demonstrates the complete lifecycle of a production-ready
-ML system.
+This project demonstrates a complete machine learning pipeline including:
 
-------------------------------------------------------------------------
+- Data ingestion and preprocessing
+- Feature engineering
+- Model training and evaluation
+- Experiment tracking using MLflow
+- Model registry and versioning
+- Model serving with FastAPI
+- Frontend interface using React
 
-## Project Vision
+The goal of the project is to simulate a real-world ML system used in fashion retail analytics.
 
-Retail businesses generate massive amounts of transactional data.\
-FashionPulse transforms raw retail data into actionable insights by:
+---
 
--   Understanding product performance\
--   Identifying demand patterns\
--   Predicting future sales trends\
--   Supporting data-driven decision-making
+# Features
 
-The goal is to bridge the gap between machine learning research and
-real-world deployment.
+## Demand Prediction
 
-------------------------------------------------------------------------
+The demand prediction module estimates weekly product demand for a given article.
 
-## What This Project Demonstrates
+Key characteristics:
 
--   Large-scale data handling\
--   Feature engineering\
--   Predictive modeling\
--   Experiment tracking\
--   API-based model serving\
--   Dashboard-based analytics\
--   Containerized deployment
+- Weekly demand aggregation
+- Feature engineering using article metadata
+- Regression model training
+- Experiment comparison with MLflow
+- Best model registered in MLflow Model Registry
+- FastAPI inference endpoint
 
-------------------------------------------------------------------------
+Models tested:
 
-## System Components
+- RandomForestRegressor
+- GradientBoostingRegressor
 
--   Data Processing Pipeline -- Cleans and prepares retail transaction
-    data\
--   Machine Learning Models -- Predict product demand and popularity\
--   MLflow Tracking -- Monitors experiments and model versions\
--   FastAPI Backend -- Serves real-time predictions\
--   React Dashboard -- Displays analytics and trends\
--   Docker Deployment -- Runs the full system as containerized services
+The best performing model is automatically registered as the production model.
 
-------------------------------------------------------------------------
+---
 
-## Technologies Used
+## Product Recommendation
 
--   Python\
--   Pandas & Scikit-Learn\
--   MLflow\
--   FastAPI\
--   React\
--   Docker
+The recommendation module suggests products for a given customer.
 
-------------------------------------------------------------------------
+Two recommendation strategies are implemented:
 
-## Why This Project Matters
+### Popularity-based baseline
+Recommends the most purchased products excluding those already purchased by the customer.
 
-Modern machine learning is not just about training models --- it is
-about building scalable systems that can move from experimentation to
-deployment.
+### Collaborative filtering improvement
+Finds customers with similar purchases and recommends items frequently bought by similar customers.
 
-FashionPulse focuses on:
+The recommendation API returns:
 
--   Reproducibility\
--   Scalability\
--   Maintainability\
--   Production-readiness
+- article_id
+- product name
+- product type
+- product group
 
-This project reflects real-world MLOps practices used in industry
-environments.
+---
 
-------------------------------------------------------------------------
+# MLOps Components
 
-## Future Improvements
+The project demonstrates the following MLOps practices:
 
--   Advanced time-series forecasting\
--   Customer segmentation\
--   Price elasticity modeling\
--   Continuous training pipeline\
--   CI/CD integration
+- Experiment tracking
+- Parameter logging
+- Metric logging
+- Model artifact storage
+- Model registry versioning
+- Production model alias
+- API-based inference
+- Frontend integration
+
+MLflow is used to manage the model lifecycle.
+
+---
+
+# Project Structure
+mlops-main/
+│
+├── app/
+│ ├── main.py
+│ ├── model_loader.py
+│ ├── recommender.py
+│ └── schemas.py
+│
+├── data/
+│ ├── raw/
+│ └── processed/
+│
+├── frontend/
+│ ├── src/
+│ └── package.json
+│
+├── models/
+│ ├── article_customers.parquet
+│ ├── article_popularity.parquet
+│ └── customer_history.parquet
+│
+├── reports/
+│ └── figures/
+│
+├── src/
+│ ├── features/
+│ │ └── build_demand_dataset.py
+│ ├── recommendation/
+│ │ └── build_recommender.py
+│ └── training/
+│ └── train.py
+│
+├── mlruns/
+├── README.md
+├── requirements.txt
+└── .gitignore
+
+---
+
+# Dataset
+
+The project uses the H&M fashion retail dataset.
+
+Files used:
+
+- transactions.parquet
+- articles.parquet
+- customers.parquet
+
+Transactions contain purchase history linking customers and articles.
+
+Article metadata provides product attributes used for feature engineering.
+
+---
+
+# Machine Learning Pipeline
+
+## 1 Data Processing
+
+Demand dataset creation is handled by:
+src/features/build_demand_dataset.py
+
+This script:
+
+- loads transaction data
+- extracts year and week from transaction dates
+- aggregates purchases per article per week
+- merges article metadata
+- saves the processed dataset
+
+Output file:
+data/processed/weekly_demand.parquet
+---
+
+## 2 Recommendation Data Preparation
+
+Recommendation artifacts are created using:
+
+
+src/recommendation/build_recommender.py
+
+
+This script builds:
+
+- customer purchase history
+- article to customer mapping
+- article popularity ranking
+
+Output files:
+
+
+models/customer_history.parquet
+models/article_customers.parquet
+models/article_popularity.parquet
+
+
+---
+
+## 3 Model Training
+
+Training is handled by:
+
+
+src/training/train.py
+
+
+Steps performed:
+
+- load processed dataset
+- preprocess features using ColumnTransformer
+- train regression models
+- compare models using MLflow
+- register best model
+
+Metrics logged:
+
+- MAE
+- RMSE
+- R²
+
+The best model is registered as:
+
+
+sheinpulse_model
+
+
+---
+
+# MLflow Experiment Tracking
+
+MLflow tracks:
+
+- experiments
+- parameters
+- metrics
+- model artifacts
+- model versions
+
+To start MLflow UI:
+
+
+mlflow ui
+
+
+Open in browser:
+
+
+http://127.0.0.1:5000
+
+
+---
+
+# FastAPI Model Serving
+
+FastAPI provides the backend API for predictions and recommendations.
+
+Run the API:
+
+
+uvicorn app.main:app --reload
+
+
+Open API documentation:
+
+
+http://127.0.0.1:8000/docs
+
+
+Available endpoints:
+
+## Health Check
+
+
+GET /health
+
+
+## Model Info
+
+
+GET /model-info
+
+
+## Demand Prediction
+
+
+POST /predict
+
+
+Example request:
+
+```json
+{
+  "article_id": 108775051,
+  "year": 2018,
+  "week": 38
+}
+Customer Recommendations
+
+GET /recommend/{customer_id}?top_k=5
+
+
+Returns recommended products for a given customer.
+
+React Frontend
+
+The frontend dashboard provides a visual interface for interacting with the system.
+
+Features:
+
+Demand prediction form
+
+Recommendation form
+
+API status display
+
+Model information
+
+Product recommendation cards
+
+The frontend communicates with the FastAPI backend using Axios.
+
+Installation
+1 Clone the repository
+
+git clone <repository_url>
+cd sheinpulse-mlops-main
+
+2 Create virtual environment
+
+Windows:
+
+
+python -m venv .venv
+.venv\Scripts\activate
+
+3 Install Python dependencies
+
+pip install -r requirements.txt
+
+4 Install frontend dependencies
+
+cd frontend
+npm install
+cd ..
+
+Running the Project
+Step 1 Activate the virtual environment
+
+.venv\Scripts\activate
+
+Step 2 Build the demand dataset
+
+python src/features/build_demand_dataset.py
+
+Step 3 Build recommendation artifacts
+
+python src/recommendation/build_recommender.py
+
+Step 4 Train the model
+
+python src/training/train.py
+
+Step 5 Start MLflow
+
+mlflow ui
+
+
+Open:
+
+
+http://127.0.0.1:5000
+
+Step 6 Start FastAPI
+
+uvicorn app.main:app --reload
+
+
+API docs:
+
+
+http://127.0.0.1:8000/docs
+
+Step 7 Start React frontend
+
+Open a second terminal:
+
+
+cd frontend
+npm run dev
+
+
+Open:
+
+
+http://localhost:5173
+
+Demo Workflow
+Demand Prediction
+
+1 Open dashboard
+2 Enter article_id
+3 Enter year and week
+4 Click Run Prediction
+5 Predicted demand is displayed
+
+Product Recommendation
+
+1 Enter a customer_id
+2 Select number of recommendations
+3 Click Get Recommendations
+4 The system returns recommended products
+
+Technical Architecture
+
+React Frontend
+      |
+      v
+FastAPI Backend
+      |
+      v
+MLflow Production Model
+      |
+      v
+Prediction Response
+
+
+Recommendation pipeline:
+
+
+Customer ID
+     |
+     v
+FastAPI /recommend
+     |
+     v
+Collaborative Recommendation Logic
+     |
+     v
+Recommended Products
+
+Current Limitations
+
+The available transaction snapshot covers a short time window
+
+Temporal variation in the demand dataset is limited
+
+Recommendation system is a baseline collaborative approach
+
+Future improvements could include:
+
+larger transaction history
+
+advanced collaborative filtering
+
+hybrid recommendation models
+
+deployment with Docker
+
+production cloud deployment
+
+Technologies Used
+
+Backend
+
+Python
+
+FastAPI
+
+Pandas
+
+Scikit-learn
+
+MLflow
+
+Frontend
+
+React
+
+Vite
+
+Axios
+
+Data
+
+Parquet
+
+H&M fashion dataset
+
+Author
+
+Rawen Beji
+Engineering student in Data Science and AI focusing on building real-world machine learning systems.
