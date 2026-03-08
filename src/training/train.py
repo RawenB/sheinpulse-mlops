@@ -94,8 +94,7 @@ def main():
     if target not in df.columns:
         raise ValueError(f"Target column '{target}' not found in dataset")
 
-    # Keep features that make sense for modeling
-    drop_cols = [c for c in ["t_dat"] if c in df.columns]  # just in case
+    drop_cols = [c for c in ["t_dat"] if c in df.columns]
     X = df.drop(columns=[target] + drop_cols)
     y = df[target]
 

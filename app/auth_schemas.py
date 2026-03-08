@@ -1,15 +1,5 @@
-from pydantic import BaseModel
 from pydantic import BaseModel, EmailStr
 
-
-class PredictionInput(BaseModel):
-    article_id: int
-    year: int
-    week: int
-
-
-class PredictionResponse(BaseModel):
-    prediction: float
 
 class LoginRequest(BaseModel):
     email: EmailStr

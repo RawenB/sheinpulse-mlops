@@ -65,7 +65,6 @@ def main():
         .reset_index(name="demand")
     )
 
-    # ---------- TABLES ----------
     overview = [
         ["Total Articles", f"{len(articles):,}"],
         ["Total Customers", f"{len(customers):,}"],
@@ -114,13 +113,11 @@ def main():
             round(skewness(s2), 5),
         ])
 
-    # outliers
     out_rows = []
     for name, s in numeric_series.items():
         cnt, pct = iqr_outliers(s)
         out_rows.append([name, cnt, round(pct, 2)])
 
-    # ---------- CHARTS ----------
     plt.figure()
     transactions["price"].hist(bins=50)
     plt.title("Price Distribution")
@@ -180,7 +177,6 @@ def main():
         plt.ylabel("count")
         save_fig(FIG_DIR / "age_dist.png")
 
-    # Demand by sales channel
     ch_demand = transactions.groupby("sales_channel_id").size().reset_index(name="tx_count")
     plt.figure()
     plt.bar(ch_demand["sales_channel_id"].astype(str), ch_demand["tx_count"])
